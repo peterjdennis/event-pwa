@@ -9,9 +9,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="event in filterNull(events)">
+        <tr v-for="event in events">
           <td>{{ event.title }}</td>
-          <td>{{ event.participants }}</td>
+          <td>{{ participants | filterBy(event.id) }}</td>
           <td>
             <div class="buttons-container">
               <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
@@ -36,43 +36,26 @@
 
 <script>
   import filter from 'lodash/filter';
-  import { db } from '../firebase';
+  import { mapState } from 'vuex';
+  import { actionTypes as eventAction } from '../store/modules/events';
 
   export default {
     name: 'AdminPage',
-    data() {
-      return {
-        events: [],
-      };
-    },
+    computed: mapState({
+      events: state => state.events.events,
+      participants: state => state.events.participants,
+    }),
     created() {
-      const self = this;
-      const eventsRef = db.ref('events');
-      eventsRef.on('value', (snapshot) => {
-        const snapshotVal = snapshot.val();
-        Object.keys(snapshotVal).forEach((key) => {
-          const title = snapshotVal[key].title;
-          const seoSlug = snapshotVal[key].seoSlug;
-          self.eventCreator(key, title, seoSlug);
-        });
-      });
+      //  LOAD_EVENTS has to stay for now because admin page is only accessible
+      //  through manually entering the url and that resets the store
+      this.$store.dispatch(eventAction.LOAD_EVENTS);
+      this.$store.dispatch(eventAction.LOAD_PARTICIPANTS);
     },
-    methods: {
-      filterNull: collection => filter(collection, c => c),
-      eventCreator(key, title, seoSlug) {
-        const participantsRef = db.ref('participants').orderByChild('eventKey').equalTo(key);
-        participantsRef.on('value', (snapshot) => {
-          const snapshotVal = snapshot.val();
-          const eventPayload = {
-            title,
-            participants: snapshotVal ? Object.keys(snapshotVal).length : 0,
-            seoSlug,
-          };
-          this.events.push(eventPayload);
-        });
-      },
+    filters: {
+      filterBy: (collection => filter(collection, { eventKey: '1' })),
     },
   };
+
 </script>
 
 <style scoped lang="scss">

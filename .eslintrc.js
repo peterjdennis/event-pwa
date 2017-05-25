@@ -39,5 +39,6 @@ module.exports = {
     // Custom rules:
     'no-param-reassign': 0,
     'no-shadow': 0,
+    'spaced-comment': 'off',
   }
 }

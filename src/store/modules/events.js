@@ -3,11 +3,13 @@ import { db } from '../../firebase';
 import lf from '../../localforage';
 
 export const actionTypes = {
+  LOAD_PARTICIPANTS: 'events/LOAD_PARTICIPANTS',
   LOAD_EVENTS: 'events/LOAD_EVENTS',
   GET_EVENT_DETAILS: 'events/GET_EVENT_DETAILS',
 };
 
 const mutationTypes = {
+  LOAD_PARTICIPANTS_SUCCESS: 'events/LOAD_PARTICIPANTS_SUCCESS',
   LOAD_EVENTS_SUCCESS: 'events/LOAD_EVENTS_SUCCESS',
   GET_EVENT_DETAILS_SUCCESS: 'events/GET_EVENT_DETAILS_SUCCESS',
 };
@@ -15,9 +17,18 @@ const mutationTypes = {
 const state = {
   events: [],
   selectedEvent: {},
+  participants: [],
 };
 
 const actions = {
+  [actionTypes.LOAD_PARTICIPANTS](context) {
+    const participantsRef = db.ref('participants');
+    participantsRef.on('value', (snapshot) => {
+      const snapshotVal = snapshot.val();
+      context.commit(mutationTypes.LOAD_PARTICIPANTS_SUCCESS, { snapshotVal });
+    });
+  },
+
   [actionTypes.LOAD_EVENTS](context) {
     const eventsRef = db.ref('events');
     if (navigator.onLine) {
@@ -44,6 +55,9 @@ const actions = {
 };
 
 const mutations = {
+  [mutationTypes.LOAD_PARTICIPANTS_SUCCESS](state, participants) {
+    state.participants = participants;
+  },
   [mutationTypes.LOAD_EVENTS_SUCCESS](state, { events }) {
     state.events = events;
   },
