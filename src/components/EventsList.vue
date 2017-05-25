@@ -31,10 +31,9 @@
       events: state => state.events.events,
     }),
     created() {
-      this.$store.dispatch(eventAction.GET_EVENTS);
+      this.$store.dispatch(eventAction.LOAD_EVENTS);
     },
   };
-
 </script>
 
 <style scoped lang="scss">
