@@ -24,8 +24,8 @@ const actions = {
   [actionTypes.LOAD_PARTICIPANTS](context) {
     const participantsRef = db.ref('participants');
     participantsRef.on('value', (snapshot) => {
-      const snapshotVal = snapshot.val();
-      context.commit(mutationTypes.LOAD_PARTICIPANTS_SUCCESS, { snapshotVal });
+      const participants = filter(snapshot.val(), e => e);
+      context.commit(mutationTypes.LOAD_PARTICIPANTS_SUCCESS, { participants });
     });
   },
 
@@ -55,7 +55,7 @@ const actions = {
 };
 
 const mutations = {
-  [mutationTypes.LOAD_PARTICIPANTS_SUCCESS](state, participants) {
+  [mutationTypes.LOAD_PARTICIPANTS_SUCCESS](state, { participants }) {
     state.participants = participants;
   },
   [mutationTypes.LOAD_EVENTS_SUCCESS](state, { events }) {

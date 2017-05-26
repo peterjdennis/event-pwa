@@ -11,7 +11,7 @@
       <tbody>
         <tr v-for="event in events">
           <td>{{ event.title }}</td>
-          <td>{{ participants | filterBy(event.id) }}</td>
+          <td>{{ filterBy(participants, event.id).length }}</td>
           <td>
             <div class="buttons-container">
               <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
@@ -51,8 +51,8 @@
       this.$store.dispatch(eventAction.LOAD_EVENTS);
       this.$store.dispatch(eventAction.LOAD_PARTICIPANTS);
     },
-    filters: {
-      filterBy: (collection => filter(collection, { eventKey: '1' })),
+    methods: {
+      filterBy: (collection, key) => filter(collection, { eventKey: key }),
     },
   };
 
@@ -75,8 +75,8 @@
     }
     td:nth-of-type(2),
     th:nth-of-type(2) {
-      padding-left: 0px;
-      padding-right: 0px;
+      padding-left: 0;
+      padding-right: 0;
     }
     @media (max-width: $mobile) {
       td:last-of-type,
