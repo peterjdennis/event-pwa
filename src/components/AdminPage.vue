@@ -1,36 +1,48 @@
 <template>
-  <div class="table-container">
-    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-      <thead>
-        <tr>
-          <th>Tytuł</th>
-          <th>Uczestnicy</th>
-          <th>Akcje</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="event in events">
-          <td>{{ event.title }}</td>
-          <td>{{ filterBy(participants, event.id).length }}</td>
-          <td>
-            <div class="buttons-container">
-              <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-                Edytuj
-              </button>
-              <router-link
-                class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                :to="{ name: 'adminQuiz', params: { seoSlug: event.seoSlug }}"
-              >
-                Konkurs
-              </router-link>
-              <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-                Usuń
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div>
+    <div class="table-container">
+      <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+        <thead>
+          <tr>
+            <th>Tytuł</th>
+            <th>Uczestnicy</th>
+            <th>Akcje</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="event in events">
+            <td>{{ event.title }}</td>
+            <td>{{ filterBy(participants, event.id).length }}</td>
+            <td>
+              <div class="buttons-container">
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                  Edytuj
+                </button>
+                <router-link
+                  class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                  :to="{ name: 'adminQuiz', params: { seoSlug: event.seoSlug }}"
+                >
+                  Konkurs
+                </router-link>
+                <button
+                  class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                  @click="showModal = true, selectedEvent.title = event.title, selectedEvent.key = event.id"
+                >
+                  Usuń
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <delete-modal
+      v-if="showModal"
+      @close="showModal = false, selectedEvent = {}"
+      @delete="deleteFromDatabase('events', selectedEvent.key), selectedEvent = {}"
+    >
+      <p slot="body">Na pewno chcesz usunąć wydarzenie "{{ selectedEvent.title }}"?</p>
+    </delete-modal>
   </div>
 </template>
 
@@ -38,9 +50,20 @@
   import filter from 'lodash/filter';
   import { mapState } from 'vuex';
   import { actionTypes as eventAction } from '../store/modules/events';
+  import { db } from '../firebase';
+  import DeleteModal from './DeleteModal';
 
   export default {
     name: 'AdminPage',
+    components: {
+      DeleteModal,
+    },
+    data() {
+      return {
+        showModal: false,
+        selectedEvent: {},
+      };
+    },
     computed: mapState({
       events: state => state.events.events,
       participants: state => state.events.participants,
@@ -53,6 +76,15 @@
     },
     methods: {
       filterBy: (collection, key) => filter(collection, { eventKey: key }),
+      deleteFromDatabase: (ref1, ref2) => {
+        db.ref(`${ref1}/${ref2}`).remove()
+          .then(() => {
+            console.log('Event removed');
+          })
+          .catch(() => {
+            console.log('Error');
+          });
+      },
     },
   };
 
