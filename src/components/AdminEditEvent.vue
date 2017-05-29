@@ -25,7 +25,13 @@
     methods: {
       onSubmit(payload) {
         const updatedRef = db.ref(`events/${this.event.id}`);
-        updatedRef.update(payload);
+        updatedRef.update(payload)
+          .then(() => {
+            console.log('Event edited');
+          })
+          .catch(() => {
+            console.log('Error');
+          });
         this.$router.push({ name: 'admin' });
       },
     },

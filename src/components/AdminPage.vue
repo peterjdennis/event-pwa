@@ -16,19 +16,19 @@
             <td>
               <div class="buttons-container">
                 <router-link
-                  class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                  class="mdl-button mdl-js-button mdl-button--raised"
                   :to="{ name: 'adminEdit', params: { seoSlug: event.seoSlug }}"
                 >
                   Edytuj
                 </router-link>
                 <router-link
-                  class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                  class="mdl-button mdl-js-button mdl-button--raised"
                   :to="{ name: 'adminQuestions', params: { seoSlug: event.seoSlug }}"
                 >
                   Konkurs
                 </router-link>
                 <button
-                  class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                  class="mdl-button mdl-js-button mdl-button--raised"
                   @click="showModal = true, selectedEvent.title = event.title, selectedEvent.key = event.id"
                 >
                   Usuń
@@ -41,7 +41,7 @@
         <tr>
           <td colspan="3">
             <router-link
-              class="mdl-button mdl-js-button mdl-button--raised"
+              class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
               :to="{ name: 'adminAddEvent'}"
             >Dodaj wydarzenie</router-link>
           </td>
