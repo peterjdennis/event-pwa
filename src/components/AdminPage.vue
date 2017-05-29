@@ -37,6 +37,16 @@
             </td>
           </tr>
         </tbody>
+        <tfoot>
+        <tr>
+          <td colspan="3">
+            <router-link
+              class="mdl-button mdl-js-button mdl-button--raised"
+              :to="{ name: 'adminAddEvent'}"
+            >Dodaj wydarzenie</router-link>
+          </td>
+        </tr>
+        </tfoot>
       </table>
     </div>
     <delete-modal

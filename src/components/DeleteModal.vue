@@ -15,20 +15,18 @@
           </div>
 
           <div class="modal-footer">
-            <slot name="footer">
-              <button
-                class="mdl-button mdl-button--raised mdl-js-button mdl-js-ripple-effect"
-                @click="$emit('delete')"
-              >
-                TAK
-              </button>
-              <button
-                class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect"
-                @click="$emit('close')"
-              >
-                NIE
-              </button>
-            </slot>
+            <button
+              class="mdl-button mdl-button--raised mdl-js-button mdl-js-ripple-effect"
+              @click="$emit('delete')"
+            >
+              TAK
+            </button>
+            <button
+              class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect"
+              @click="$emit('close')"
+            >
+              NIE
+            </button>
           </div>
         </div>
       </div>

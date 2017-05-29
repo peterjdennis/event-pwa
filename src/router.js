@@ -7,7 +7,8 @@ import EventQuiz from './components/EventQuiz/EventQuiz.vue';
 import LoginPage from './components/LoginPage';
 import AdminPage from './components/AdminPage';
 import AdminEventQuestions from './components/AdminEventQuestions';
-import AdminEventEdit from './components/AdminEventEdit';
+import AdminEditEvent from './components/AdminEditEvent';
+import AdminAddEvent from './components/AdminAddEvent';
 
 Vue.use(VueRouter);
 
@@ -34,7 +35,8 @@ const router = new VueRouter({
     { path: '/login', name: 'login', component: LoginPage },
     { path: '/admin', name: 'admin', component: AdminPage, beforeEnter: requireAuth },
     { path: '/admin/:seoSlug/konkurs', name: 'adminQuestions', component: AdminEventQuestions, beforeEnter: requireAuth },
-    { path: '/admin/:seoSlug/edycja', name: 'adminEdit', component: AdminEventEdit },
+    { path: '/admin/:seoSlug/edycja', name: 'adminEdit', component: AdminEditEvent },
+    { path: '/admin/nowe-wydarzenie', name: 'adminAddEvent', component: AdminAddEvent },
   ],
 });
 

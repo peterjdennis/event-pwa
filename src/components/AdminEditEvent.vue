@@ -12,7 +12,7 @@
 
 
   export default {
-    name: 'AdminEventEdit',
+    name: 'AdminEditEvent',
     components: {
       EventForm,
     },

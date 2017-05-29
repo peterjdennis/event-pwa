@@ -6,6 +6,7 @@
     <mdl-textfield floating-label="Adres obrazka" v-model="event.imageUrl"></mdl-textfield>
     <mdl-checkbox v-model="event.active">Wydarzenie aktywne</mdl-checkbox>
     <mdl-checkbox v-model="event.open">Zapisy otwarte</mdl-checkbox>
+    <mdl-textfield floating-label="ID Wydarzenia" v-model="event.id"></mdl-textfield>
     <mdl-textfield floating-label="SEO Slug" v-model="event.seoSlug"></mdl-textfield>
     <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
       Zapisz
@@ -20,6 +21,18 @@
     props: {
       event: {
         type: Object,
+        default() {
+          return {
+            title: '',
+            desc: '',
+            agenda: '',
+            imageUrl: '',
+            active: false,
+            open: false,
+            id: '',
+            seoSlug: '',
+          };
+        },
       },
     },
 
