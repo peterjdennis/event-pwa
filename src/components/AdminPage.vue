@@ -15,12 +15,15 @@
             <td>{{ filterBy(participants, event.id).length }}</td>
             <td>
               <div class="buttons-container">
-                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-                  Edytuj
-                </button>
                 <router-link
                   class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                  :to="{ name: 'adminQuiz', params: { seoSlug: event.seoSlug }}"
+                  :to="{ name: 'adminEdit', params: { seoSlug: event.seoSlug }}"
+                >
+                  Edytuj
+                </router-link>
+                <router-link
+                  class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                  :to="{ name: 'adminQuestions', params: { seoSlug: event.seoSlug }}"
                 >
                   Konkurs
                 </router-link>
