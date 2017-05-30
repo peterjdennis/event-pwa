@@ -12,7 +12,7 @@
         <tbody>
           <tr v-for="event in events">
             <td>{{ event.title }}</td>
-            <td>{{ filterBy(participants, event.id).length }}</td>
+            <td>{{ getParticipantsNumber(event.id) }}</td>
             <td>
               <div class="buttons-container">
                 <router-link
@@ -29,7 +29,7 @@
                 </router-link>
                 <button
                   class="mdl-button mdl-js-button mdl-button--raised"
-                  @click="showModal = true, selectedEvent.title = event.title, selectedEvent.key = event.id"
+                  @click="openModal(event.title, event.id)"
                 >
                   Usuń
                 </button>
@@ -43,7 +43,9 @@
             <router-link
               class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
               :to="{ name: 'adminAddEvent'}"
-            >Dodaj wydarzenie</router-link>
+            >
+              Dodaj wydarzenie
+            </router-link>
           </td>
         </tr>
         </tfoot>
@@ -51,8 +53,8 @@
     </div>
     <delete-modal
       v-if="showModal"
-      @close="showModal = false, selectedEvent = {}"
-      @delete="deleteFromDatabase('events', selectedEvent.key), selectedEvent = {}"
+      @close="closeModal"
+      @delete="deleteFromDatabase('events', selectedEvent.key)"
     >
       <p slot="body">Na pewno chcesz usunąć wydarzenie "{{ selectedEvent.title }}"?</p>
     </delete-modal>
@@ -88,8 +90,20 @@
       this.$store.dispatch(eventAction.LOAD_PARTICIPANTS);
     },
     methods: {
-      filterBy: (collection, key) => filter(collection, { eventKey: key }),
-      deleteFromDatabase: (ref1, ref2) => {
+      getParticipantsNumber(key) {
+        return filter(this.participants, { eventKey: key }).length;
+      },
+      openModal(title, id) {
+        this.showModal = true;
+        this.selectedEvent.title = title;
+        this.selectedEvent.key = id;
+      },
+      closeModal() {
+        this.showModal = false;
+        this.selectedEvent = {};
+      },
+      deleteFromDatabase(ref1, ref2) {
+        this.closeModal();
         db.ref(`${ref1}/${ref2}`).remove()
           .then(() => {
             console.log('Event removed');
@@ -112,37 +126,46 @@
     max-width: 512px;
     margin: 0 auto 15px auto;
   }
+
   .mdl-data-table {
     width: 100%;
+
     td, th {
       text-align: center;
       white-space: normal;
     }
+
     td:nth-of-type(2),
     th:nth-of-type(2) {
       padding-left: 0;
       padding-right: 0;
     }
+
     @media (max-width: $mobile) {
       td:last-of-type,
       th:last-of-type {
         padding-right: 12px;
       }
+
       td:first-of-type,
       th:first-of-type {
         padding-left: 12px;
       }
     }
   }
+
   .mdl-button {
     margin: 2px;
+
     @media (max-width: $tablet) {
       padding-left: 5px;
       padding-right: 5px;
     }
   }
+
   .buttons-container {
     display: flex;
+
     @media (max-width: $tablet) {
       flex-direction: column;
     }

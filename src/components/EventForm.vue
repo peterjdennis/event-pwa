@@ -1,16 +1,17 @@
 <template>
-  <form class="input-container" v-on:submit.prevent="onSubmit">
+  <form class="input-container mdl-shadow--3dp" v-on:submit.prevent="onSubmit">
     <mdl-textfield floating-label="Tytuł" v-model="event.title"></mdl-textfield>
     <mdl-textfield floating-label="Opis" v-model="event.desc"></mdl-textfield>
-    <mdl-textfield floating-label="Agenda" textarea rows="15" v-model="event.agenda"></mdl-textfield>
-    <p class="agenda-preview"><i class="material-icons">chevron right</i>Podgląd agendy:</p>
-    <div class="agenda" v-html="compiledMarkdown"></div>
-
     <mdl-textfield floating-label="Adres obrazka" v-model="event.imageUrl"></mdl-textfield>
+    <mdl-textfield floating-label="SEO Slug" v-model="event.seoSlug"></mdl-textfield>
+    <mdl-textfield floating-label="Agenda" textarea rows="8" v-model="event.agenda"></mdl-textfield>
+    <div @click="showPreview" class="agenda-preview">
+      <p class="agenda-preview-title">Podgląd agendy</p>
+      <i v-bind:class="{ 'is-rotated': showAgenda }" class="material-icons">chevron_right</i>
+    </div>
+    <div class="agenda" v-if="showAgenda" v-html="compiledMarkdown"></div>
     <mdl-checkbox v-model="event.active">Wydarzenie aktywne</mdl-checkbox>
     <mdl-checkbox v-model="event.open">Zapisy otwarte</mdl-checkbox>
-    <mdl-textfield floating-label="ID Wydarzenia" v-model="event.id"></mdl-textfield>
-    <mdl-textfield floating-label="SEO Slug" v-model="event.seoSlug"></mdl-textfield>
     <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
       Zapisz
     </button>
@@ -18,14 +19,17 @@
 </template>
 
 <script>
-
   import marked from 'marked';
 
   export default {
     name: 'EventForm',
+    data() {
+      return {
+        showAgenda: false,
+      };
+    },
     props: {
       event: {
-        type: Object,
         default() {
           return {
             title: '',
@@ -53,7 +57,6 @@
           active: thisEvent.active,
           agenda: thisEvent.agenda,
           desc: thisEvent.desc,
-          id: thisEvent.id,
           imageUrl: thisEvent.imageUrl,
           open: thisEvent.open,
           seoSlug: thisEvent.seoSlug,
@@ -61,31 +64,64 @@
         };
         this.$emit('submitted', formPayload);
       },
+      showPreview() {
+        this.showAgenda = !this.showAgenda ? this.showAgenda = true : this.showAgenda = false;
+      },
     },
   };
 
 </script>
 
-<style lang="scss">
-.input-container {
-  display: flex;
-  flex-direction: column;
-}
-.agenda {
-  ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    font-size: 16px;
+<style scoped lang="scss">
 
-    li {
-      border-bottom: 1px solid #dcdcdc;
-      padding: 8px 0;
+  .input-container {
+    padding: 10px;
+    background: #f9f9f9;
+    max-width: 800px;
+    margin: 0 auto 0 auto;
 
-      &:last-child {
-        border-bottom: none;
+    .mdl-textfield {
+      width: 800px;
+      display: inline-block;
+    }
+
+    .mdl-textarea {
+      margin-right: 20px;
+    }
+
+    .mdl-checkbox {
+      margin-bottom: 10px;
+    }
+
+    .agenda-preview {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      width: 140px;
+      transition: 0.3s color;
+
+      &-title {
+        font-size: 16px;
+        margin: 0;
+      }
+
+      &:hover {
+        color: #ff7626;
       }
     }
   }
-}
+
+  .mdl-button {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .material-icons {
+    transition: 0.3s transform;
+  }
+
+  .is-rotated {
+    transform: rotate(90deg);
+  }
+
 </style>

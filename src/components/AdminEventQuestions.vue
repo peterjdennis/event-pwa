@@ -76,6 +76,7 @@
 </script>
 
 <style scoped lang="scss">
+
   .card.mdl-card {
     width: auto;
     max-width: 512px;
@@ -85,4 +86,5 @@
   .mdl-data-table {
     width: 100%;
   }
+
 </style>

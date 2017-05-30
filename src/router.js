@@ -35,8 +35,8 @@ const router = new VueRouter({
     { path: '/login', name: 'login', component: LoginPage },
     { path: '/admin', name: 'admin', component: AdminPage, beforeEnter: requireAuth },
     { path: '/admin/:seoSlug/konkurs', name: 'adminQuestions', component: AdminEventQuestions, beforeEnter: requireAuth },
-    { path: '/admin/:seoSlug/edycja', name: 'adminEdit', component: AdminEditEvent },
-    { path: '/admin/nowe-wydarzenie', name: 'adminAddEvent', component: AdminAddEvent },
+    { path: '/admin/:seoSlug/edycja', name: 'adminEdit', component: AdminEditEvent, beforeEnter: requireAuth },
+    { path: '/admin/nowe-wydarzenie', name: 'adminAddEvent', component: AdminAddEvent, beforeEnter: requireAuth },
   ],
 });
 

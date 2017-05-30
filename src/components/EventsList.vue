@@ -34,9 +34,11 @@
       this.$store.dispatch(eventAction.LOAD_EVENTS);
     },
   };
+
 </script>
 
 <style scoped lang="scss">
+
   .card.mdl-card {
     width: auto;
     max-width: 512px;
@@ -69,4 +71,5 @@
   .card > .mdl-card__menu {
     color: #fff;
   }
+
 </style>

@@ -26,6 +26,7 @@
       this.$store.dispatch(eventAction.GET_EVENT_DETAILS);
     },
   };
+
 </script>
 
 <style lang="scss">

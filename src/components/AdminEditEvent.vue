@@ -1,15 +1,12 @@
 <template>
-  <event-form :event="event" @submitted="onSubmit">
-  </event-form>
+  <event-form :event="event" @submitted="onSubmit"></event-form>
 </template>
 
 <script>
-
   import { mapState } from 'vuex';
   import { db } from '../firebase';
   import { actionTypes as eventAction } from '../store/modules/events';
   import EventForm from './EventForm';
-
 
   export default {
     name: 'AdminEditEvent',
@@ -39,4 +36,3 @@
 
 </script>
 
-<style lang="scss"></style>

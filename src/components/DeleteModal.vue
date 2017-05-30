@@ -28,6 +28,7 @@
               NIE
             </button>
           </div>
+
         </div>
       </div>
     </div>
@@ -43,6 +44,7 @@
 </script>
 
 <style scoped lang="scss">
+
   $tablet: 767px;
   $mobile: 380px;
 
@@ -57,12 +59,13 @@
       background-color: rgba(0, 0, 0, .5);
       display: table;
       transition: opacity .2s ease;
-
     }
+
     &-wrapper {
       display: table-cell;
       vertical-align: middle;
     }
+
     &-container {
       text-align: center;
       width: 300px;
@@ -73,18 +76,22 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
       transition: all .3s ease;
       font-family: Helvetica, Arial, sans-serif;
+
       @media (max-width: $mobile) {
         box-sizing: border-box;
         width: 100vw;
         height: 100vh;
       }
     }
+
     &-header h3 {
       margin-top: 0;
     }
+
     &-body {
       margin: 20px 0;
     }
+
     &-footer {
       display: flex;
       justify-content: space-around;
@@ -97,9 +104,9 @@
     &-enter, &-leave-active {
       opacity: 0;
     }
+
     &-enter &-container,
     &-leave-active &-container {
-      -webkit-transform: scale(1.05);
       transform: scale(1.05);
     }
   }

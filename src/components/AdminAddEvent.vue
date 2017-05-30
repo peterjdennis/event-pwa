@@ -1,21 +1,13 @@
 <template>
-  <event-form @submitted="onSubmit">
-  </event-form>
+  <event-form @submitted="onSubmit"></event-form>
 </template>
 
 <script>
-
   import { db } from '../firebase';
   import EventForm from './EventForm';
 
-
   export default {
-    name: 'AdminEditEvent',
-    data() {
-      return {
-
-      };
-    },
+    name: 'AdminAddEvent',
     components: {
       EventForm,
     },
@@ -35,5 +27,3 @@
   };
 
 </script>
-
-<style lang="scss"></style>
